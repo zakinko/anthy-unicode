@@ -234,3 +234,4 @@
 ;	    (anthy-change-katakana-map (car x) (cdr x)))
 ;	  anthy-azik-mode-katakana-map)
 
+(provide 'anthy-unicode-azik)

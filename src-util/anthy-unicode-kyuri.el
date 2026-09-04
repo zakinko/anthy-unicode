@@ -207,4 +207,4 @@
 (setq anthy-wide-space " ")
 (setq anthy-use-hankaku-kana nil)
 
-
+(provide 'anthy-unicode-kyuri)

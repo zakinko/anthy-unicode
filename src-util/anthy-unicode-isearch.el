@@ -100,3 +100,5 @@
 (add-hook 'isearch-mode-hook 'anthy-isearch-mode-setup)
 (add-hook 'isearch-mode-end-hook 'anthy-isearch-mode-cleanup)
 (setq debug-on-error 't)
+
+(provide 'anthy-unicode-isearch)
