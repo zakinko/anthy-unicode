@@ -1,4 +1,4 @@
-;;; anthy-unicode.el -- Anthy
+;;; anthy-unicode.el -- Anthy  -*- lexical-binding: nil -*-
 
 ;; Copyright (C) 2001 - 2007 KMC(Kyoto University Micro Computer Club)
 ;; Copyright (C) 2021 Takao Fujiwara <takao.fujiwara1@gmail.com>
@@ -69,6 +69,13 @@
 ;;
 (defvar anthy-agent-unicode-command-list '("anthy-agent-unicode")
   "anthy-agent-unicodeのPATH 名")
+
+;; XEmacs にしか無い名前。anthy-xemacs が真のときしか呼ばないが、直接書くと
+;; GNU Emacs の byte compiler が "not known to be defined" と言う。
+(defvar anthy-event-matches-key-specifier-p-function
+  'event-matches-key-specifier-p)
+(defvar anthy-event-to-character-function 'event-to-character)
+(defvar anthy-char-to-int-function 'char-to-int)
 
 ;; XEmacs には set-process-query-on-exit-flag が無い。持っているのは
 ;; process-kill-without-query で、第二引数 nil で「終了時に問い合わせない」
@@ -913,11 +920,12 @@
   (if anthy-xemacs
       (let ((event last-command-event))
 	(cond
-	 ((event-matches-key-specifier-p event 'left)      2)
-	 ((event-matches-key-specifier-p event 'right)     6)
-	 ((event-matches-key-specifier-p event 'backspace) 8)
+	 ((funcall anthy-event-matches-key-specifier-p-function event 'left)      2)
+	 ((funcall anthy-event-matches-key-specifier-p-function event 'right)     6)
+	 ((funcall anthy-event-matches-key-specifier-p-function event 'backspace) 8)
 	 (t
-	  (char-to-int (event-to-character event)))))
+	  (funcall anthy-char-to-int-function
+		   (funcall anthy-event-to-character-function event)))))
     last-command-event))
 
 ;;
