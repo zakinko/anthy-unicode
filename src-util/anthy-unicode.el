@@ -765,6 +765,14 @@
 	    (kill-process anthy-agent-unicode-process))
 	(setq anthy-agent-unicode-process proc)
 	(set-process-query-on-exit-flag proc nil)
+	;; utf-8 を扱えない処理系では Mule-UCS が在れば読む。実測で扱えな
+	;; かったのは XEmacs 21.4 と Emacs 21.4 と Emacs 20.7 の三つ。
+	;; XEmacs 21.5 と Emacs 22 以降は最初から扱えるので何もしない。
+	;; 無ければ黙って諦める。
+	(if (not (anthy-utf-8-unix-p))
+	    (condition-case nil
+		(require 'un-define)
+	      (error nil)))
 	(if (anthy-utf-8-unix-p)
 	    (set-process-coding-system proc 'utf-8-unix 'utf-8-unix))
 ;;	(if anthy-xemacs
