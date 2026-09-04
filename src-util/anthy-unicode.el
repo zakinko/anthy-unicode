@@ -70,6 +70,14 @@
 (defvar anthy-agent-unicode-command-list '("anthy-agent-unicode")
   "anthy-agent-unicodeのPATH 名")
 
+;; XEmacs には set-process-query-on-exit-flag が無い。持っているのは
+;; process-kill-without-query で、第二引数 nil で「終了時に問い合わせない」
+;; になるのは同じ。
+(defvar anthy-set-process-no-query-function
+  (if (fboundp 'set-process-query-on-exit-flag)
+      'set-process-query-on-exit-flag
+    'process-kill-without-query))
+
 ;; face
 (defvar anthy-highlight-face nil)
 (defvar anthy-underline-face nil)
@@ -83,7 +91,12 @@
   (if (featurep 'xemacs)
       t nil))
 (if anthy-xemacs
-    (require 'overlay))
+    ;; overlay は XEmacs 本体には無く、fsf-compat package が持っている。
+    ;; 素の file-error では何を入れればよいか分からないので名前を言う。
+    (condition-case nil
+	(require 'overlay)
+      (error
+       (error "anthy-unicode: XEmacs needs the fsf-compat package for overlay"))))
 ;;
 (defvar anthy-mode-map nil
   "AnthyのASCIIモードのキーマップ")
@@ -752,7 +765,7 @@
 	(if anthy-agent-unicode-process
 	    (kill-process anthy-agent-unicode-process))
 	(setq anthy-agent-unicode-process proc)
-	(set-process-query-on-exit-flag proc nil)
+	(funcall anthy-set-process-no-query-function proc nil)
 ;;	(if anthy-xemacs
 ;;	    (if (coding-system-p (find-coding-system 'euc-japan))
 ;;		(set-process-coding-system proc 'euc-japan 'euc-japan))
