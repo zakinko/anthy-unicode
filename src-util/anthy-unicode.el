@@ -97,12 +97,18 @@
       'deactivate-current-input-method-function
     'inactivate-current-input-method-function))
 
+;; Emacs 24.3 までは set-face-underline-p の方が正で、set-face-underline は
+;; その obsolete な別名。24.3 で入れ替わる。XEmacs は -p しか持たない。
+(defvar anthy-set-face-underline-function
+  (if (fboundp 'set-face-underline)
+      'set-face-underline
+    'set-face-underline-p))
+
 ;; face
 (defvar anthy-highlight-face nil)
 (defvar anthy-underline-face nil)
 (copy-face 'highlight 'anthy-highlight-face)
-(if (not (featurep 'xemacs))
-    (set-face-underline 'anthy-highlight-face t))
+(funcall anthy-set-face-underline-function 'anthy-highlight-face t)
 (copy-face 'underline 'anthy-underline-face)
 
 ;;
