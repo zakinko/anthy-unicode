@@ -85,6 +85,18 @@
       'set-process-query-on-exit-flag
     'process-kill-without-query))
 
+;; deactivate-* は Emacs 24.3 での改名。Emacs 23 以前と XEmacs は
+;; inactivate-* しか持たない。名前は二つ同時に変わったので、片方だけ
+;; 直しても症状は同じ。
+(defvar anthy-deactivate-input-method-function
+  (if (fboundp 'deactivate-input-method)
+      'deactivate-input-method
+    'inactivate-input-method))
+(defvar anthy-deactivate-current-input-method-variable
+  (if (boundp 'deactivate-current-input-method-function)
+      'deactivate-current-input-method-function
+    'inactivate-current-input-method-function))
+
 ;; face
 (defvar anthy-highlight-face nil)
 (defvar anthy-underline-face nil)
@@ -897,7 +909,8 @@
 ;; leim の activate
 ;;
 (defun anthy-unicode-leim-activate (&optional name)
-  (setq deactivate-current-input-method-function 'anthy-unicode-leim-inactivate)
+  (set anthy-deactivate-current-input-method-variable
+       'anthy-unicode-leim-inactivate)
   (setq anthy-leim-active-p t)
   (anthy-update-mode)
   (when (eq (selected-window) (minibuffer-window))
@@ -907,7 +920,7 @@
 ;; emacsのバグ避けらしいです
 ;;
 (defun anthy-unicode-leim-exit-from-minibuffer ()
-  (deactivate-input-method)
+  (funcall anthy-deactivate-input-method-function)
   (when (<= (minibuffer-depth) 1)
     (remove-hook 'minibuffer-exit-hook 'anthy-unicode-leim-exit-from-minibuffer)))
 
