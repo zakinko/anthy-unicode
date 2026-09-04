@@ -9,6 +9,8 @@
 ;;; Commentary:
 ;;
 
+(require 'anthy-unicode)
+
 (defvar anthy-alt-char-map
   '(("," "，")
     ("." "．")))

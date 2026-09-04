@@ -8,6 +8,9 @@
 ;; (anthy-azik-mode)
 ;;
 
+(require 'anthy-unicode)
+(require 'anthy-unicode-conf)
+
 (defvar anthy-azik-mode-hiragana-map
   '(
     (";" . "っ")  ("x;" . ";")  ("b." . "ぶ")  ("bd" . "べん")  ("bh" . "ぶう")  
