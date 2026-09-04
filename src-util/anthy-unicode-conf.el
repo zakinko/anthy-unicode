@@ -1,4 +1,4 @@
-;; anthy-unicode-conf.el -- Anthy
+;; anthy-unicode-conf.el -- Anthy  -*- lexical-binding: nil -*-
 
 
 ;; Copyright (C) 2002
@@ -107,7 +107,7 @@
   (anthy-send-recv-command " SET_PREEDIT_MODE 1\n")
   (anthy-send-change-toggle-command "!")
   (anthy-clear-map)
-  (mapcar (lambda (x)
+  (mapc (lambda (x)
 	    (anthy-change-hiragana-map (car x) (cdr x)))
 	  anthy-kana-mode-hiragana-map)
   (mapcar (lambda (x)

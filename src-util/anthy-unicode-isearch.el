@@ -1,4 +1,4 @@
-;; anthy-unicode-isearch.el -- Anthy
+;; anthy-unicode-isearch.el -- Anthy  -*- lexical-binding: nil -*-
 
 ;; Copyright (C) 2003
 ;; Author: Yusuke Tabata <yusuke@cherbim.icw.co.jp>

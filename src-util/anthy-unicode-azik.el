@@ -1,4 +1,4 @@
-;; anthy-unicode-azik.el
+;; anthy-unicode-azik.el  -*- lexical-binding: nil -*-
 
 ;; Copyright (C) 2004
 ;; Author: Yutaka Hara<yhara@kmc.gr.jp>
@@ -226,7 +226,7 @@
 	  (("katakana" . 16) . "hiragana")))
 ; (define-key anthy-mode-map (char-to-string 16) 'anthy-insert)
   (anthy-send-change-toggle-command "!")
-  (mapcar (lambda (x)
+  (mapc (lambda (x)
 	    (anthy-change-hiragana-map (car x) (cdr x)))
 	  anthy-azik-mode-hiragana-map)
   (anthy-hiragana-map))

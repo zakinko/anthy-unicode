@@ -1,11 +1,11 @@
-;; anthy-unicode-kyuri.el
+;; anthy-unicode-kyuri.el  -*- lexical-binding: nil -*-
 
 ;; Copyright (C) 2005
 ;; Author: Yukihiro Matsumoto <matz@ruby-lang.org>
 
 (require 'anthy-unicode)
 
-(setq anthy-kyuri-mode-hiragana-map
+(defvar anthy-kyuri-mode-hiragana-map
   '(
     ("bh" . "ぁ") ("h" . "あ") ("bk" . "ぃ") ("k" . "い") ("bj" . "ぅ")
     ("j" . "う") ("yj" . "う゛") ("yh" . "う゛ぁ") ("yk" . "う゛ぃ") ("y;" . "う゛ぇ") 

@@ -1,4 +1,4 @@
-;; anthy-unicode-dic.el -- Anthy
+;; anthy-unicode-dic.el -- Anthy  -*- lexical-binding: nil -*-
 
 ;; Copyright (C) 2001 - 2005
 ;; Author: Yusuke Tabata<yusuke@w5.dion.ne.jp>
