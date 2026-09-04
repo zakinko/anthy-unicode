@@ -70,6 +70,18 @@
 (defvar anthy-agent-unicode-command-list '("anthy-agent-unicode")
   "anthy-agent-unicodeのPATH 名")
 
+;; utf-8-unix が実際に使えるか。名前が在るだけでは足りない。Emacs 21.4 は
+;; utf-8 という coding system を持っているが、CJK を入れる先が無いので三
+;; byte の漢字が byte のまま残る。一文字復号して長さを見る。
+;; XEmacs の coding-system-p は symbol ではなく coding system の object を
+;; 取るので、symbol で訊くと常に nil になる。XEmacs 側の綴りは
+;; find-coding-system で、GNU Emacs には無い。
+(defun anthy-utf-8-unix-p ()
+  (and (if (fboundp 'find-coding-system)
+	   (find-coding-system 'utf-8-unix)
+	 (coding-system-p 'utf-8-unix))
+       (= (length (decode-coding-string "\346\227\245" 'utf-8)) 1)))
+
 ;; face
 (defvar anthy-highlight-face nil)
 (defvar anthy-underline-face nil)
@@ -753,6 +765,8 @@
 	    (kill-process anthy-agent-unicode-process))
 	(setq anthy-agent-unicode-process proc)
 	(set-process-query-on-exit-flag proc nil)
+	(if (anthy-utf-8-unix-p)
+	    (set-process-coding-system proc 'utf-8-unix 'utf-8-unix))
 ;;	(if anthy-xemacs
 ;;	    (if (coding-system-p (find-coding-system 'euc-japan))
 ;;		(set-process-coding-system proc 'euc-japan 'euc-japan))
