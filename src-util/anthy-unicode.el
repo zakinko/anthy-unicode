@@ -82,6 +82,13 @@
 	 (coding-system-p 'utf-8-unix))
        (= (length (decode-coding-string "\346\227\245" 'utf-8)) 1)))
 
+;; mapc は Emacs 21 から。無い処理系では anthy 9100h と同じ mapcar を
+;; 使う。この行は返り値を捨てるので、どちらでも同じことになる。
+(defvar anthy-mapc-function
+  (if (fboundp 'mapc)
+      'mapc
+    'mapcar))
+
 ;; face
 (defvar anthy-highlight-face nil)
 (defvar anthy-underline-face nil)
@@ -262,7 +269,7 @@
 	(delete-region start (+ start len))
 	(goto-char start)))
   (setq anthy-preedit "")
-  (mapc 'delete-overlay anthy-preedit-overlays)
+  (funcall anthy-mapc-function 'delete-overlay anthy-preedit-overlays)
   (setq anthy-preedit-overlays nil))
 
 (defun anthy-select-face-by-attr (attr)
