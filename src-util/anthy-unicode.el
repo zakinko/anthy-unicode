@@ -559,14 +559,17 @@
 	  (char-to-string ch)
 	nil))))
 
-(defun anthy-restore-undo-list (commit-str)
-  (let* ((len (length commit-str))
-	 (beginning (point))
-	 (end (+ beginning len)))
-    (setq buffer-undo-list
-	  (cons (cons beginning end)
-		(cons nil anthy-saved-buffer-undo-list)))
-	 ))
+;; 呼び出し側も、anthy-saved-buffer-undo-list を設定する二箇所も、元から
+;; コメントアウトされている。この関数だけが生きていて、呼べば void-variable に
+;; なる。同じように閉じておく。
+;(defun anthy-restore-undo-list (commit-str)
+;  (let* ((len (length commit-str))
+;	 (beginning (point))
+;	 (end (+ beginning len)))
+;    (setq buffer-undo-list
+;	  (cons (cons beginning end)
+;		(cons nil anthy-saved-buffer-undo-list)))
+;	 ))
 
 (defun anthy-proc-agent-reply (repl)
   (let*
