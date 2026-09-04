@@ -215,6 +215,9 @@
 (anthy-deflocalvar anthy-current-rkmap "hiragana")
 ; undo
 (anthy-deflocalvar anthy-buffer-undo-list-saved nil)
+;; 待避した undo list そのもの。旗だけ buffer local で中身が global だったので、
+;; buffer を二つ使うと片方の履歴がもう片方のもので上書きされていた。
+(anthy-deflocalvar anthy-buffer-undo-list nil)
 
 ;;
 (defvar anthy-wide-space "　" "スペースを押した時に出て来る文字")
